@@ -27,6 +27,18 @@ export default {
       return this.store.competitors.find( el => { return el.id == this.id } )
     },
 
+    name() {
+      return this.competitor.name
+    },
+
+    country() {
+      return this.competitor.country_code
+    },
+
+    suit() {
+      return this.competitor.suit_name
+    },
+
     rank() {
       return this.competitor.rank
     },
@@ -36,9 +48,12 @@ export default {
     },
 
     best_score() {
+      if (this.competitor.results.length == 0) return ''
+
       return this.competitor.results
         .map( el => { return parseFloat(el.points) } )
         .reduce( (max, value) => { return Math.max(max, value) } )
+        .toFixed(1)
     }
   },
 
@@ -96,7 +111,10 @@ export default {
 
     <div class="competitor__data" v-if="!loading">
       <div class="competitor__rank">{{ this.rank }}</div>
-      <div class="competitor__points">{{ this.best_score.toFixed(1) }}</div>
+      <div class="competitor__name">{{ this.name }}</div>
+      <div class="competitor__country">{{ this.country }}</div>
+      <div class="competitor__suit">{{ this.suit }}</div>
+      <div class="competitor__points">{{ this.best_score }}</div>
 
       <div class="round round-1">
         <div class="result">{{ this.distance(1) }} m</div>
@@ -115,6 +133,14 @@ export default {
 </template>
 
 <style scoped>
+@font-face {
+  font-family: 'bitsumisiregular';
+  src: url('/static/bitsumis.woff2') format('woff2'),
+       url('/static/bitsumis.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .competitor {
   height: 720px;
   width: 1152px;
@@ -143,8 +169,9 @@ export default {
 }
 
 .competitor__rank {
+  font-family: bitsumisiregular;
   position: absolute;
-  top: 66px;
+  top: 70px;
   left: 0px;
   width: 100px;
   text-align: center;
@@ -152,12 +179,41 @@ export default {
 }
 
 .competitor__points {
+  font-family: bitsumisiregular;
   position: absolute;
   text-align: center;
-  top: 208px;
-  left: 196px;
+  top: 212px;
+  left: 197px;
   width: 86px;
   font-size: 34px;
 }
 
+.competitor__name {
+  font-family: bitsumisiregular;
+  position: absolute;
+  top: 60px;
+  left: 133px;
+  font-size: 40px;
+  color: white;
+}
+
+.competitor__country {
+  font-family: bitsumisiregular;
+  position: absolute;
+  top: 95px;
+  left: 558px;
+  font-size: 40px;
+  color: white;
+
+}
+
+.competitor__suit {
+  position: absolute;
+  text-transform: uppercase;
+  top: 102px;
+  left: 210px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
 </style>
