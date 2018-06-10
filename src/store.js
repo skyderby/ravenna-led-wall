@@ -1,3 +1,5 @@
+import Competitor from '@/competitor'
+
 const EVENT_ID = '48'
 
 export default {
@@ -35,6 +37,7 @@ export default {
         index += 1
       })
 
+      competitors = competitors.map( el => { return new Competitor(el) } )
       this.competitors = this.competitors.concat(competitors)
     }
   }
